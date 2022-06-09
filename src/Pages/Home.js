@@ -18,9 +18,9 @@ function Home() {
             <div className="row row-cols-6" data-testid="row-profile">
                 {profiles.map((profile) => (
                     <CardProfile
-                        img={profile.profile_picture.myFile}
+                        img={profile.profile_picture}
                         name={profile.name}
-                        bio={profile.work_experience[0].job_title}
+                        // bio={profile.work_experience[0].job_title}
                         id={profile.id}
                     />
                 ))}

@@ -17,7 +17,7 @@ function CardProfile({ name, bio, id, img }) {
                     </small>
                     <div className="mt-5">
                         <Link className="d-flex justify-content-center btn btn-primary mt-2" to={"/profile/" + id}>
-                            Sea
+                            Detail
                         </Link>
                         <div />
                     </div>
