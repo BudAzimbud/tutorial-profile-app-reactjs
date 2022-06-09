@@ -30,7 +30,7 @@ function ProfileDetail() {
                             return (
                                 <div className='shadow py-4 px-4 w-full d-flex gap-4 border-bottom'>
                                     <div className=''>
-                                        <img style={{ width: '100%', height: '70px' }} src={"https://img.inews.co.id/media/822/files/inews_new/2022/06/08/menteri_pertahanan_prabowo_subianto.jpg"} className=" rounded border card-img-top " alt="profile" />
+                                        <img style={{ width: '100%', height: '70px' }} src={experience.company_logo} className=" rounded border card-img-top " alt="profile" />
                                     </div>
                                     <div className='text-left text-aligns-center'>
                                         <h5>{experience.job_title}</h5>
@@ -41,8 +41,6 @@ function ProfileDetail() {
                                 </div>
                             )
                         })}
-
-
                     </div>
                 </div>
             </div>
