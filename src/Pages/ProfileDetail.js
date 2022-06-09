@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
+import formatDate from '../Helper/formatDate'
 function ProfileDetail() {
     const { id } = useParams()
     const [profile, setProfile] = useState()
@@ -13,7 +13,6 @@ function ProfileDetail() {
         })
     }, [])
 
-    console.log(profile)
 
     return (
         <div className='container' data-testid="profile-detail">
@@ -35,7 +34,7 @@ function ProfileDetail() {
                                     <div className='text-left text-aligns-center'>
                                         <h5>{experience.job_title}</h5>
                                         <p>{experience.company} </p>
-                                        <p>{experience.start_date} - {experience.end_date}</p>
+                                        <p>{formatDate(new Date(experience.start_date))} - {experience.end_date}</p>
                                     </div>
                                     <p>{experience.job_description}</p>
                                 </div>
