@@ -4,7 +4,7 @@ import Router from './Router/Router'
 
 function App() {
   return (
-    <div className='app'>
+    <div className='app' data-testid="app">
       <Router />
     </div>
   )

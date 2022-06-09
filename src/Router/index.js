@@ -1,4 +1,5 @@
 import Home from "../Pages/Home";
+import ProfileDetail from "../Pages/ProfileDetail";
 
 const router = [
     {
@@ -8,7 +9,7 @@ const router = [
     },
     {
         path: '/profile/:id',
-        page: <Home />,
+        page: <ProfileDetail />,
         private: true
     }
 ]

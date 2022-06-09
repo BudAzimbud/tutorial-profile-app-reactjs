@@ -19,7 +19,7 @@ const PrivateRouter = ({ children }) => {
 
 function Router() {
     return (
-        <BrowserRouter>
+        <BrowserRouter data-testid="route">
             <Routes>
                 {
                     router.map((route, index) => {

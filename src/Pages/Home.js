@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import CardProfile from '../Component/CardProfile'
-
 function Home() {
 
     const [profiles, setProfile] = useState([])
@@ -15,8 +14,8 @@ function Home() {
     }, [])
 
     return (
-        <div className="container  text-dark">
-            <div className="row row-cols-6 ">
+        <div className="container  text-dark" data-testid="home">
+            <div className="row row-cols-6" data-testid="row-profile">
                 {profiles.map((profile) => (
                     <CardProfile
                         img={profile.profile_picture.myFile}
@@ -27,7 +26,6 @@ function Home() {
                 ))}
             </div>
         </div>
-
     )
 }
 
