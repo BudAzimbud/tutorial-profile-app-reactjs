@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import CardProfile from '../Component/CardProfile'
 function Home() {
-
+    const id = localStorage.getItem("profile_id")
     const [profiles, setProfile] = useState([])
+
+    
 
     useEffect(() => {
         axios.get(`${[process.env.REACT_APP_URL_BACKEND]}/profile`).then((res) => {

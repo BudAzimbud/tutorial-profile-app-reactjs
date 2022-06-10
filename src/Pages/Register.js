@@ -11,6 +11,12 @@ function Register() {
     const handleSubmit = (value) => {
         axios.post(`${process.env.REACT_APP_URL_BACKEND}/profile`, value).then((res) => {
             history('/login')
+            axios.post(`${process.env.REACT_APP_URL_BACKEND}/profile_share`, {
+                user_id: res.data.id,
+                share: false,
+                url: `${process.env.REACT_APP_URL_FRONTEND}/${value.name + "HelloGuy"}`,
+                nickname: `${value.name + "HelloGuy"}`
+            })
             alert('success register')
 
         }).catch((err) => {
