@@ -1,16 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Button, FormControl, Form, Accordion } from 'react-bootstrap'
+import { FormControl, Accordion } from 'react-bootstrap'
 import FormWorkExperience from '../Component/FormWorkExperience';
 import Input from '../Component/Input';
 import Modal from '../Component/Modal';
 import convertToBase64 from '../Helper/convertBase';
+import Form from 'react-bootstrap/Form';
 function Setting() {
   const [data, setData] = useState({
   });
   const [experience, setExperience] = useState([]);
   const [action, setAction] = useState(0)
-  const id = 1
+  const id = localStorage.getItem("profile_id")
 
   const update_data = (payload) => {
     axios.patch(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id, payload).then((res) => {
@@ -74,6 +75,15 @@ function Setting() {
               event.preventDefault();
             }
           }} onChange={(event) => { setData({ ...data, age: event.target.value }) }} defaultValue={data.age} required />
+        <Form.Check
+          type="switch"
+          id="custom-switch"
+          label="Share Profile"
+          onChange={(event) => {
+            setData({ ...data, share_profile: !data.share_profile })
+          }}
+          checked={data?.share_profile}
+        />
         <button className='btn btn-primary'>Save</button>
       </form>
       <h5 className='mt-4'> Work Experience</h5>

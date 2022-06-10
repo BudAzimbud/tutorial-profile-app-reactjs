@@ -6,7 +6,7 @@ function Home() {
     const [profiles, setProfile] = useState([])
 
     useEffect(() => {
-        axios.get(`${[process.env.REACT_APP_URL_BACKEND]}/profile`).then((res) => {
+        axios.get(`${[process.env.REACT_APP_URL_BACKEND]}/profile?share_profile=true`).then((res) => {
             setProfile(res.data)
         }).catch((err) => {
             console.log(err)
@@ -20,7 +20,7 @@ function Home() {
                     <CardProfile
                         img={profile.profile_picture}
                         name={profile.name}
-                        // bio={profile.work_experience[0].job_title}
+                        key={profile.id}
                         id={profile.id}
                     />
                 ))}

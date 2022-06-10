@@ -1,6 +1,7 @@
 import EditProfile from "../Pages/Setting";
 import Home from "../Pages/Home";
 import ProfileDetail from "../Pages/ProfileDetail";
+import Login from "../Pages/Login";
 
 const router = [
     {
@@ -17,6 +18,11 @@ const router = [
         path: '/setting/',
         page: <EditProfile />,
         private: true
+    },
+    {
+        path:'/login',
+        page : <Login />,
+        private : false,
     }
 ]
 

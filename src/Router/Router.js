@@ -5,8 +5,8 @@ import router from './index'
 const PrivateRouter = ({ children }) => {
     const history = useNavigate()
     useEffect(() => {
-        if (!localStorage.getItem("token")) {
-            history('/')
+        if (!localStorage.getItem("profile_id")) {
+            history('/login')
         }
     }, [history])
     return <>
@@ -23,11 +23,14 @@ function Router() {
             <Routes>
                 {
                     router.map((route, index) => {
-                        return <Route key={index} path={route.path} element={
-                            <PrivateRouter>
-                                {route.page}
-                            </PrivateRouter>
-                        } />
+                        if (route.private) {
+                            return <Route key={index} path={route.path} element={
+                                <PrivateRouter>
+                                    {route.page}
+                                </PrivateRouter>
+                            } />
+                        }
+                        return <Route key={index} path={route.path} element={route.page} />
                     })
                 }
             </Routes>
