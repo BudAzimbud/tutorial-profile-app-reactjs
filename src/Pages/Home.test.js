@@ -20,7 +20,7 @@ describe('Home will render', () => {
         const homeContainer = screen.getByTestId("home")
         const rowprofile = screen.getByTestId("row-profile")
         expect(homeContainer).toHaveClass("container  text-dark")
-        expect(rowprofile).toHaveClass("row row-cols-6")
+        expect(rowprofile).toHaveClass("row row-cols-6 gap-4")
         expect(mockedAxios).toBeCalled()
     })
 })

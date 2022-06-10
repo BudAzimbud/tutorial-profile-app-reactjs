@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FormControl, Accordion } from 'react-bootstrap'
+import { FormControl, Accordion, Button } from 'react-bootstrap'
 import FormWorkExperience from '../Component/FormWorkExperience';
 import Input from '../Component/Input';
 import Modal from '../Component/Modal';
 import convertToBase64 from '../Helper/convertBase';
-import Form from 'react-bootstrap/Form';
+import FormUrlShare from '../Component/FormUrlShare';
 function Setting() {
   const [data, setData] = useState({
   });
@@ -54,9 +54,12 @@ function Setting() {
     })
   }
 
+
+
   useEffect(() => {
     getProfile()
     getWorkExperience()
+
   }, [action])
 
 
@@ -69,23 +72,11 @@ function Setting() {
         <img src={data.profile_picture} style={{ width: 160, height: 130, }} className="border rounded-circle card-img-top mt-2" alt="..." />
         <FormControl placeholder="Name" type="file" onChange={handleFileUpload} />
         <Input label="Name" placeholder="Name" onChange={(event) => { setData({ ...data, name: event.target.value }) }} defaultValue={data.name} required />
-        <Input label="Age" placeholder=""
-          onKeyPress={(event) => {
-            if (!/[0-9]/.test(event.key)) {
-              event.preventDefault();
-            }
-          }} onChange={(event) => { setData({ ...data, age: event.target.value }) }} defaultValue={data.age} required />
-        <Form.Check
-          type="switch"
-          id="custom-switch"
-          label="Share Profile"
-          onChange={(event) => {
-            setData({ ...data, share_profile: !data.share_profile })
-          }}
-          checked={data?.share_profile}
-        />
+        <Input label="Birthday" placeholder="" type="date" onChange={(event) => { setData({ ...data, age: event.target.value }) }} defaultValue={data.age} required />
+
         <button className='btn btn-primary'>Save</button>
       </form>
+      <FormUrlShare />
       <h5 className='mt-4'> Work Experience</h5>
       <Modal >
         <FormWorkExperience handleSubmit={(value) => {

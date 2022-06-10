@@ -1,22 +1,23 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import formatDate from '../Helper/formatDate'
+import getAge from '../Helper/getAge'
 function ProfileDetail() {
-    const { id } = useParams()
+    const { id, nickname } = useParams()
     const [profile, setProfile] = useState()
     const [experience, setExperience] = useState([])
-
-    const getProfile = () => {
-        axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id).then((res) => {
+    const history = useNavigate()
+    const getProfile = (user_id) => {
+        axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + user_id).then((res) => {
             setProfile({ ...profile, ...res.data })
         }).catch((err) => {
             console.log(err)
         })
     }
 
-    const getWorkExperience = () => {
-        axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=${id}`).then((res) => {
+    const getWorkExperience = (user_id) => {
+        axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=${user_id}`).then((res) => {
             setExperience(res.data)
         }).catch((err) => {
             console.log(err)
@@ -24,8 +25,30 @@ function ProfileDetail() {
     }
 
     useEffect(() => {
-        getProfile()
-        getWorkExperience()
+        if (!id) {
+            axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile_share?nickname=${nickname}`).then((res) => {
+                if (res.data[0].share || res.data[0].user_id === localStorage.getItem("profile_id")) {
+
+                }
+                console.log(parseInt(localStorage.getItem("profile_id")))
+                if (res.data[0].share || res.data[0].user_id === parseInt(localStorage.getItem("profile_id"))) {
+                    getProfile(res.data[0].user_id)
+                    getWorkExperience(res.data[0].user_id)
+                } else {
+                    history('/')
+                }
+
+
+
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            getProfile(id)
+            getWorkExperience(id)
+        }
+
     }, [])
 
 
@@ -37,7 +60,7 @@ function ProfileDetail() {
                 <div className='text-center'>
                     <img style={{ width: '350px', height: '350px' }} src={profile?.profile_picture} className="border card-img-top rounded-circle" alt="profile" />
                     <h2 className='mt-3 fw-bold'>{profile?.name}</h2>
-                    <p>{profile?.age + " Tahun"}</p>
+                    <p>{getAge(profile?.age) + " Tahun"}</p>
                 </div>
                 <div style={{ width: '100%' }}>
                     <h5>Work Experience</h5>

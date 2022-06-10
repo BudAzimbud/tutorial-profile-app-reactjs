@@ -40,7 +40,7 @@ function FormWorkExperience(props) {
                         setData({ ...data, company_logo: base64 });
                     }}
                     required={!defaultValue} />
-                <Input type="date" label='Start date' onChange={(event) => setData({ ...data, start_date: event.target.value })} defaultValue={defaultValue && new Date(defaultValue?.start_date)?.toISOString().split('T')[0]} required />
+                <Input type="date" label='Start date' onChange={(event) => setData({ ...data, start_date: event.target.value })} defaultValue={defaultValue?.start_date ? new Date(defaultValue?.start_date)?.toISOString().split('T')[0] : null} required />
                 {
                     !defaultValue && (
                         <Form.Check
@@ -56,7 +56,7 @@ function FormWorkExperience(props) {
                         />
                     )
                 }
-                <Input type="date" label='End date' disabled={data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue.end_data !== "now" && new Date(defaultValue?.end_date)?.toISOString().split('T')[0]} required />
+                <Input type="date" label='End date' disabled={data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue?.end_data && defaultValue?.end_data !== "now" && new Date(defaultValue?.end_date)?.toISOString().split('T')[0]} required />
                 <label>Job Description</label>
                 <Form.Control
                     as="textarea"
