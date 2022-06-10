@@ -74,7 +74,7 @@ function ProfileDetail() {
                                     <div className='text-left text-aligns-center '>
                                         <h5>{experience.job_title}</h5>
                                         <p className="text-secondary">{experience.company} </p>
-                                        <p className="text-secondary">{formatDate(new Date(experience.start_date))} - {experience.end_date === "now" ? "Now" : formatDate(new Date(experience.start_date))}</p>
+                                        <p style={{ fontSize: '12px' }} className="text-secondary">{formatDate(new Date(experience.start_date))} - {experience.end_date === "now" ? "Now" : formatDate(new Date(experience.end_date))}</p>
                                     </div>
                                     <p className='text-secondary'>{experience.job_description}</p>
                                 </div>
