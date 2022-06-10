@@ -19,7 +19,7 @@ function formatMonth(month) {
 
 
 function formatDate(date) {
-    return date.getDay() + " " + formatMonth(date.getMonth()) + " " + date.getFullYear()
+    return date.getDate() + " " + formatMonth(date.getMonth()) + " " + date.getFullYear()
 }
 
 export default formatDate
