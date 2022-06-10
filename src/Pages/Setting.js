@@ -7,12 +7,15 @@ import Modal from '../Component/Modal';
 import convertToBase64 from '../Helper/convertBase';
 function Setting() {
   const [data, setData] = useState({
-    profile_picture: ""
   });
+  const [experience, setExperience] = useState([]);
+  const [action, setAction] = useState(0)
   const id = 1
 
   const update_data = (payload) => {
-    axios.patch('http://localhost:3000/profile/' + id, payload).then((res) => {
+    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id, payload).then((res) => {
+      console.log(res)
+      alert('Profile is update')
     })
   }
 
@@ -27,7 +30,7 @@ function Setting() {
   };
 
   const getProfile = () => {
-    axios.get('http://localhost:3000/profile/' + id).then((res) => {
+    axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id).then((res) => {
       setData(res.data)
     }).catch((err) => {
 
@@ -35,19 +38,25 @@ function Setting() {
   }
 
   const addExperience = (data) => {
-    axios.post('http://localhost:3000/work_experience', {
+    axios.post(`${process.env.REACT_APP_URL_BACKEND}/work_experience`, {
       ...data,
     }).then((res) => {
-      console.log(res)
     }).catch((err) => {
       console.log(data)
       console.log(err.response)
     })
   }
 
+  const getWorkExperience = (data) => {
+    axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=` + id).then((res) => {
+      setExperience(res.data)
+    })
+  }
+
   useEffect(() => {
     getProfile()
-  }, [])
+    getWorkExperience()
+  }, [action])
 
 
 
@@ -58,48 +67,52 @@ function Setting() {
       >
         <img src={data.profile_picture} style={{ width: 160, height: 130, }} className="border rounded-circle card-img-top mt-2" alt="..." />
         <FormControl placeholder="Name" type="file" onChange={handleFileUpload} />
-        <Input label="Name" placeholder="Name" defaultValue={data.name} required />
-        <Input label="Age" placeholder="" defaultValue={data.age} required />
-        <h5>Work Experience</h5>
-        <Modal >
-          <FormWorkExperience handleSubmit={(value) => {
-            addExperience({ user_id: id, ...value })
-          }} />
-        </Modal>
-        <Accordion >
-          {
-            data?.work_experience?.map((experience, index) => (
-              <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header>{experience.company}</Accordion.Header>
-                <Accordion.Body className="d-flex flex-column gap-2">
-                  <Input label='Job title' defaultValue={experience.job_title} />
-                  <Input label='Company' defaultValue={experience.company} />
-                  <Input type="date" label='Start date' defaultValue={new Date(experience.start_date).toLocaleDateString('en-CA')} />
-                  <Input type="date" label='End date' />
-                  <label>Job Description</label>
-                  <Form.Control
-                    as="textarea"
-                    placeholder="Job Description"
-                    style={{ height: '100px' }}
-                    onChange={(event) => {
-
-                    }}
-                    defaultValue={experience.job_description}
-                  />
-                  <div>
-                    <Button variant="danger" onClick={(event) => {
-
-                    }}>Delete this experience</Button>
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-            ))
-          }
-        </Accordion>
+        <Input label="Name" placeholder="Name" onChange={(event) => { setData({ ...data, name: event.target.value }) }} defaultValue={data.name} required />
+        <Input label="Age" placeholder=""
+          onKeyPress={(event) => {
+            if (!/[0-9]/.test(event.key)) {
+              event.preventDefault();
+            }
+          }} onChange={(event) => { setData({ ...data, age: event.target.value }) }} defaultValue={data.age} required />
         <button className='btn btn-primary'>Save</button>
       </form>
-
-
+      <h5 className='mt-4'> Work Experience</h5>
+      <Modal >
+        <FormWorkExperience handleSubmit={(value) => {
+          addExperience({ user_id: id, ...value })
+          setAction(action + 1)
+        }} />
+      </Modal>
+      <Accordion className='shadow-sm d-flex flex-column gap-4 p-5 ' >
+        {
+          experience?.map((experience, index) => (
+            <Accordion.Item eventKey={index} key={index}>
+              <Accordion.Header>{experience.company}</Accordion.Header>
+              <Accordion.Body className="d-flex flex-column gap-2">
+                <FormWorkExperience defaultValue={experience}
+                  handleSubmit={(value) => {
+                    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/work_experience/${experience.id}`, {
+                      ...value
+                    }).then((res) => {
+                      alert('work experience is updated')
+                    }).catch((err) => {
+                      console.log(err)
+                    })
+                  }}
+                  onDelete={(event) => {
+                    axios.delete(`${process.env.REACT_APP_URL_BACKEND}/work_experience/` + experience.id).then((res) => {
+                      setAction(action + 1)
+                      window.location.reload()
+                    })
+                  }}
+                />
+                <div className='d-flex gap-2'>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))
+        }
+      </Accordion>
     </div>
   )
 }

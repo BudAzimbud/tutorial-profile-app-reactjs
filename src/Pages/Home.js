@@ -6,7 +6,7 @@ function Home() {
     const [profiles, setProfile] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/profile').then((res) => {
+        axios.get(`${[process.env.REACT_APP_URL_BACKEND]}/profile`).then((res) => {
             setProfile(res.data)
         }).catch((err) => {
             console.log(err)

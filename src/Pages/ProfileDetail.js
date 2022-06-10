@@ -8,7 +8,7 @@ function ProfileDetail() {
     const [experience, setExperience] = useState([])
 
     const getProfile = () => {
-        axios.get('http://localhost:3000/profile/' + id).then((res) => {
+        axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id).then((res) => {
             setProfile({ ...profile, ...res.data })
         }).catch((err) => {
             console.log(err)
@@ -16,7 +16,7 @@ function ProfileDetail() {
     }
 
     const getWorkExperience = () => {
-        axios.get('http://localhost:3000/work_experience?profile_user=1').then((res) => {
+        axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=${id}`).then((res) => {
             setExperience(res.data)
         }).catch((err) => {
             console.log(err)
