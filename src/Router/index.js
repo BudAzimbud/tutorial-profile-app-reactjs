@@ -34,6 +34,11 @@ const router = [
         path: '/:nickname',
         page: <ProfileDetail />,
         private: true
+    },
+    {
+        path: '/*',
+        page: <Home />,
+        private: true
     }
 ]
 
