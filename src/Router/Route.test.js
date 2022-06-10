@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { getByAltText, render, screen } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { Router } from "react-router-dom"
 import router from './index'

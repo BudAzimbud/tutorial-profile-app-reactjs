@@ -12,7 +12,7 @@ function FormRegister(props) {
             handleSubmit(data)
             event.preventDefault()
         }}>
-            <p className="text-center">Login</p>
+            <p className="text-center">Register</p>
             <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="loginName">Email</label>
                 <input type="email" id="loginName" className="form-control" required
@@ -56,7 +56,7 @@ function FormRegister(props) {
                 />
             </div>
             <div >
-                <button type="submit" className="btn btn-primary ">Sign in</button>
+                <button type="submit" className="btn btn-primary ">Sign up</button>
             </div>
         </form>
     )

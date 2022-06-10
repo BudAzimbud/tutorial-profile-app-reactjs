@@ -6,10 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 First clone this repository then
 running command
-npm i
-json-server --watch db.json --port 3000
-and running reacjs app in port different like 3001
-and run npm start
+$ npm i
+$ json-server --watch db.json --port 3000
+$ run npm start
 
 example .env
 REACT_APP_URL_BACKEND='http://localhost:3000'

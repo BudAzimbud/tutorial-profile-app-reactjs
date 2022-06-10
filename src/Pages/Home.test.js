@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import Home from "./Home"
 import axios from 'axios';
+import CardProfile from "../Component/CardProfile";
 
 jest.mock('axios');
 describe('Home will render', () => {
@@ -23,4 +24,6 @@ describe('Home will render', () => {
         expect(rowprofile).toHaveClass("row row-cols-6 gap-4")
         expect(mockedAxios).toBeCalled()
     })
+
+    
 })
