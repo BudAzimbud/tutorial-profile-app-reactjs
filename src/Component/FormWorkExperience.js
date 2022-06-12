@@ -53,7 +53,7 @@ function FormWorkExperience(props) {
                         }
                     }}
                 />
-                <Input type="date" label='End date' disabled={!defaultValue && data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue?.end_date === "now" ? "now" : new Date(defaultValue?.end_date)?.toISOString().split('T')[0]} required />
+                <Input type="date" label='End date' disabled={!defaultValue && data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue?.end_date === "now" ? null : defaultValue?.end_date ? new Date(defaultValue?.end_date)?.toISOString().split('T')[0] : null} required />
                 <label>Job Description</label>
                 <Form.Control
                     as="textarea"

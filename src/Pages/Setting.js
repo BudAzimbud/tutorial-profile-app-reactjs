@@ -1,27 +1,33 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FormControl, Accordion, Button } from 'react-bootstrap'
 import FormWorkExperience from '../Component/FormWorkExperience';
 import Input from '../Component/Input';
 import Modal from '../Component/Modal';
 import convertToBase64 from '../Helper/convertBase';
 import FormUrlShare from '../Component/FormUrlShare';
+import { InternetContext } from '../App';
 function Setting() {
   const [data, setData] = useState({
   });
   const [experience, setExperience] = useState([]);
   const [action, setAction] = useState(0)
   const id = localStorage.getItem("profile_id")
-
-  const update_data = (payload) => {
+  const [internet] = useContext(InternetContext)
+  const updateProfile = (payload) => {
     axios.patch(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id, payload).then((res) => {
       console.log(res)
-      alert('Profile is update')
     })
   }
 
   const onSubmit = (event) => {
-    update_data(data)
+    alert('Profile is update')
+    const profileLocalStorage = JSON.parse(localStorage.getItem("profile"))
+    if (internet) {
+      updateProfile(data)
+      return
+    }
+    localStorage.setItem("profile", JSON.stringify({ ...profileLocalStorage, ...data }))
     event.preventDefault()
   }
   const handleFileUpload = async (e) => {
@@ -32,7 +38,15 @@ function Setting() {
 
   const getProfile = () => {
     axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id).then((res) => {
+      const resToString = JSON.stringify(res.data)
       setData(res.data)
+      if (!localStorage.getItem("profile")) {
+        localStorage.setItem("profile", resToString)
+      }
+      if (localStorage.getItem("profile") !== resToString) {
+        updateProfile(JSON.parse(localStorage.getItem("profile")))
+        localStorage.removeItem("profile")
+      }
     }).catch((err) => {
 
     })
@@ -48,17 +62,47 @@ function Setting() {
     })
   }
 
-  const getWorkExperience = (data) => {
+  const getWorkExperience = () => {
     axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=` + id).then((res) => {
+      const resToString = JSON.stringify(res.data)
       setExperience(res.data)
+      if (!localStorage.getItem("work_experience")) {
+        localStorage.setItem("work_experience", resToString)
+      }
+      if (localStorage.getItem("work_experience") !== resToString) {
+        const work_experience_local = JSON.parse(localStorage.getItem("work_experience"))
+        work_experience_local.forEach((experience_local) => {
+
+          if (experience_local.id) {
+            updateExperience(experience_local)
+          } else {
+            console.log(experience_local)
+            addExperience(experience_local)
+          }
+        })
+        localStorage.removeItem("work_experience")
+      }
+    })
+  }
+
+  const updateExperience = (payload) => {
+    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/work_experience/${payload.id}`, {
+      ...payload
+    }).then((res) => {
+    }).catch((err) => {
+      console.log(err)
     })
   }
 
 
-
   useEffect(() => {
-    getProfile()
-    getWorkExperience()
+    if (internet) {
+      getProfile()
+      getWorkExperience()
+    } else {
+      setData(JSON.parse(localStorage.getItem("profile")))
+      setExperience(JSON.parse(localStorage.getItem("work_experience")))
+    }
 
   }, [action])
 
@@ -80,8 +124,15 @@ function Setting() {
       <h5 className='mt-4'> Work Experience</h5>
       <Modal >
         <FormWorkExperience handleSubmit={(value) => {
-          addExperience({ user_id: id, ...value })
+          alert('your work experience is add')
+          if (internet) {
+            addExperience({ user_id: id, ...value })
+            return
+          }
           setAction(action + 1)
+          const work_experience_local = JSON.parse(localStorage.getItem("work_experience"))
+          work_experience_local.push({ user_id: id, ...value })
+          localStorage.setItem("work_experience", JSON.stringify(work_experience_local))
         }} />
       </Modal>
       <Accordion className='shadow-sm d-flex flex-column gap-4 p-5 ' >
@@ -92,13 +143,14 @@ function Setting() {
               <Accordion.Body className="d-flex flex-column gap-2">
                 <FormWorkExperience defaultValue={experience}
                   handleSubmit={(value) => {
-                    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/work_experience/${experience.id}`, {
-                      ...value
-                    }).then((res) => {
-                      alert('work experience is updated')
-                    }).catch((err) => {
-                      console.log(err)
-                    })
+                    alert('work experience is updated')
+                    if (internet) {
+                      updateExperience(value)
+                      return
+                    }
+                    const work_experience_local = JSON.parse(localStorage.getItem("work_experience"))
+                    work_experience_local[index] = { ...work_experience_local[index], ...value }
+                    localStorage.setItem("work_experience", JSON.stringify(work_experience_local))
                   }}
                   onDelete={(event) => {
                     axios.delete(`${process.env.REACT_APP_URL_BACKEND}/work_experience/` + experience.id).then((res) => {
