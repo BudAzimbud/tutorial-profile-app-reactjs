@@ -41,22 +41,19 @@ function FormWorkExperience(props) {
                     }}
                     required={!defaultValue} />
                 <Input type="date" label='Start date' onChange={(event) => setData({ ...data, start_date: event.target.value })} defaultValue={defaultValue?.start_date ? new Date(defaultValue?.start_date)?.toISOString().split('T')[0] : null} required />
-                {
-                    !defaultValue && (
-                        <Form.Check
-                            type={"checkbox"}
-                            label={`Now`}
-                            onChange={(event) => {
-                                if (data.end_date === "now") {
-                                    setData({ ...data, end_date: null })
-                                } else {
-                                    setData({ ...data, end_date: 'now' })
-                                }
-                            }}
-                        />
-                    )
-                }
-                <Input type="date" label='End date' disabled={data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue?.end_data || defaultValue?.end_data !== "now" && new Date(defaultValue?.end_date)?.toISOString().split('T')[0]} required />
+                <Form.Check
+                    type={"checkbox"}
+                    label={`Now`}
+                    checked={data.end_date === "now"}
+                    onChange={(event) => {
+                        if (data.end_date === "now") {
+                            setData({ ...data, end_date: null })
+                        } else {
+                            setData({ ...data, end_date: 'now' })
+                        }
+                    }}
+                />
+                <Input type="date" label='End date' disabled={!defaultValue && data.end_date === "now"} onChange={(event) => setData({ ...data, end_date: event.target.value })} defaultValue={defaultValue?.end_date === "now" ? "now" : new Date(defaultValue?.end_date)?.toISOString().split('T')[0]} required />
                 <label>Job Description</label>
                 <Form.Control
                     as="textarea"

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import NavbarHome from '../Component/NavbarHome'
 import router from './index'
+
 const PrivateRouter = ({ children }) => {
     const history = useNavigate()
     useEffect(() => {
