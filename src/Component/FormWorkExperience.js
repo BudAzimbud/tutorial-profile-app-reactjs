@@ -21,12 +21,12 @@ function FormWorkExperience(props) {
                         return
                     }
                     if (data.end_date !== "now") {
-                        if (new Date(data.end_date).getFullYear() < new Date(data.start_date).getFullYear) {
+                        if (new Date(data.end_date).getFullYear() < new Date(data.start_date).getFullYear()) {
                             alert('Please input more start date')
                             return
                         }
                     }
-
+                    console.log(data)
                     handleSubmit(data)
                     event.preventDefault()
                 }}

@@ -145,7 +145,7 @@ function Setting() {
                   handleSubmit={(value) => {
                     alert('work experience is updated')
                     if (internet) {
-                      updateExperience(value)
+                      updateExperience({ ...experience, ...value })
                       return
                     }
                     const work_experience_local = JSON.parse(localStorage.getItem("work_experience"))
