@@ -7,8 +7,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 First clone this repository then
 running command
 $ npm i
-$ json-server --watch db.json --port 3000
-$ run npm start
+$ npm run server => to run fake api
+$ run npm start => ro run react js app
 
 example .env
 REACT_APP_URL_BACKEND='http://localhost:3000'
