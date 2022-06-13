@@ -16,7 +16,6 @@ function ProfileDetail() {
             console.log(err)
         })
     }
-
     const getWorkExperience = (user_id) => {
         http.get(`work_experience?user_id=${user_id}`).then((res) => {
             setExperience(res.data)
@@ -24,32 +23,33 @@ function ProfileDetail() {
             console.log(err)
         })
     }
-
     useEffect(() => {
         if (!id) {
-            http.get(`profile_share?nickname=${nickname}`).then((res) => {
-                if (res.data[0].share || res.data[0].user_id === localStorage.getItem("profile_id")) {
-
-                }
-                console.log(parseInt(localStorage.getItem("profile_id")))
-                if (res.data[0].share || res.data[0].user_id === parseInt(localStorage.getItem("profile_id"))) {
-                    getProfile(res.data[0].user_id)
-                    getWorkExperience(res.data[0].user_id)
-                } else {
-                    history('/')
-                }
-
-
-            }).catch((err) => {
-                console.log(err)
-            })
+            getProfileShare()
         } else {
             getProfile(id)
+            getProfileShare()
             getWorkExperience(id)
         }
 
-    }, [])
+    }, [profile])
 
+    const getProfileShare = () => {
+        const query_search = profile ? `user_id=${profile.id}` : `nickname=${nickname}`
+        http.get(`profile_share?${query_search}`).then((res) => {
+            console.log(res.data[0])
+            if (res.data[0].share || res.data[0].user_id === parseInt(localStorage.getItem("profile_id"))) {
+                getProfile(res.data[0].user_id)
+                getWorkExperience(res.data[0].user_id)
+            } else {
+                history('/')
+            }
+
+
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
 
 

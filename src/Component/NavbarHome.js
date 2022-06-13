@@ -20,7 +20,12 @@ function NavbarHome() {
                             <NavDropdown.Item href="/setting" >
                                 Setting
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/login" onClick={(event) => localStorage.removeItem("profile_id")} >
+                            <NavDropdown.Item href="/login" onClick={(event) => {
+                                localStorage.removeItem("profile_id")
+                                localStorage.removeItem("profile")
+                                localStorage.removeItem("work_experience")
+                            }
+                            } >
                                 Log out
                             </NavDropdown.Item>
                         </NavDropdown>
