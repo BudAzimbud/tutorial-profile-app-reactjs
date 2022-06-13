@@ -16,6 +16,7 @@ function FormWorkExperience(props) {
         <>
             <form
                 onSubmit={(event) => {
+                    event.preventDefault()
                     if (new Date(data.start_date).getFullYear() > new Date().getFullYear()) {
                         alert('Please input less date now')
                         return
@@ -28,7 +29,6 @@ function FormWorkExperience(props) {
                     }
                     console.log(data)
                     handleSubmit(data)
-                    event.preventDefault()
                 }}
                 className='d-flex flex-column gap-2 border p-4'>
                 <Input label='Job title' onChange={(event) => setData({ ...data, job_title: event.target.value })} defaultValue={defaultValue?.job_title} required />
