@@ -7,6 +7,7 @@ import Modal from '../Component/Modal';
 import convertToBase64 from '../Helper/convertBase';
 import FormUrlShare from '../Component/FormUrlShare';
 import { InternetContext } from '../App';
+import http from '../Helper/http.';
 function Setting() {
   const [data, setData] = useState({
   });
@@ -15,7 +16,7 @@ function Setting() {
   const id = localStorage.getItem("profile_id")
   const [internet] = useContext(InternetContext)
   const updateProfile = (payload) => {
-    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id, payload).then((res) => {
+    http.patch(`profile/` + id, payload).then((res) => {
       console.log(res)
     })
   }
@@ -37,7 +38,7 @@ function Setting() {
   };
 
   const getProfile = () => {
-    axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + id).then((res) => {
+    http.get(`profile/` + id).then((res) => {
       const resToString = JSON.stringify(res.data)
       setData(res.data)
       if (!localStorage.getItem("profile")) {
@@ -53,7 +54,7 @@ function Setting() {
   }
 
   const addExperience = (data) => {
-    axios.post(`${process.env.REACT_APP_URL_BACKEND}/work_experience`, {
+    http.post(`work_experience`, {
       ...data,
     }).then((res) => {
     }).catch((err) => {
@@ -63,7 +64,7 @@ function Setting() {
   }
 
   const getWorkExperience = () => {
-    axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=` + id).then((res) => {
+    http.get(`work_experience?user_id=` + id).then((res) => {
       const resToString = JSON.stringify(res.data)
       setExperience(res.data)
       if (!localStorage.getItem("work_experience")) {
@@ -86,7 +87,7 @@ function Setting() {
   }
 
   const updateExperience = (payload) => {
-    axios.patch(`${process.env.REACT_APP_URL_BACKEND}/work_experience/${payload.id}`, {
+    http.patch(`work_experience/${payload.id}`, {
       ...payload
     }).then((res) => {
     }).catch((err) => {
@@ -153,7 +154,7 @@ function Setting() {
                     localStorage.setItem("work_experience", JSON.stringify(work_experience_local))
                   }}
                   onDelete={(event) => {
-                    axios.delete(`${process.env.REACT_APP_URL_BACKEND}/work_experience/` + experience.id).then((res) => {
+                    http.delete(`work_experience/` + experience.id).then((res) => {
                       setAction(action + 1)
                       window.location.reload()
                     })

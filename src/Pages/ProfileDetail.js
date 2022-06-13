@@ -1,15 +1,16 @@
-import axios from 'axios'
+
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import formatDate from '../Helper/formatDate'
 import getAge from '../Helper/getAge'
+import http from '../Helper/http.'
 function ProfileDetail() {
     const { id, nickname } = useParams()
     const [profile, setProfile] = useState()
     const [experience, setExperience] = useState([])
     const history = useNavigate()
     const getProfile = (user_id) => {
-        axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile/` + user_id).then((res) => {
+        http.get(`profile/` + user_id).then((res) => {
             setProfile({ ...profile, ...res.data })
         }).catch((err) => {
             console.log(err)
@@ -17,7 +18,7 @@ function ProfileDetail() {
     }
 
     const getWorkExperience = (user_id) => {
-        axios.get(`${process.env.REACT_APP_URL_BACKEND}/work_experience?user_id=${user_id}`).then((res) => {
+        http.get(`work_experience?user_id=${user_id}`).then((res) => {
             setExperience(res.data)
         }).catch((err) => {
             console.log(err)
@@ -26,7 +27,7 @@ function ProfileDetail() {
 
     useEffect(() => {
         if (!id) {
-            axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile_share?nickname=${nickname}`).then((res) => {
+            http.get(`profile_share?nickname=${nickname}`).then((res) => {
                 if (res.data[0].share || res.data[0].user_id === localStorage.getItem("profile_id")) {
 
                 }
@@ -37,8 +38,6 @@ function ProfileDetail() {
                 } else {
                     history('/')
                 }
-
-
 
 
             }).catch((err) => {

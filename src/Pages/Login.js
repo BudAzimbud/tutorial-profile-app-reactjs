@@ -2,13 +2,14 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLogin from "../Component/FormLogin";
+import http from "../Helper/http.";
 
 function Login() {
 
     const history = useNavigate()
 
     const handleSubmit = (value) => {
-        axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile?email=${value.email}&&password=${value.password}`).then((res) => {
+        http.get(`profile?email=${value.email}&&password=${value.password}`).then((res) => {
             if (res.data.length > 0) {
                 history('/')
                 localStorage.setItem("profile_id", res.data[0].id)

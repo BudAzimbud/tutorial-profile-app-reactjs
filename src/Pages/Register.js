@@ -3,15 +3,16 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLogin from "../Component/FormLogin";
 import FormRegister from "../Component/FormRegister";
+import http from "../Helper/http.";
 
 function Register() {
 
     const history = useNavigate()
 
     const handleSubmit = (value) => {
-        axios.post(`${process.env.REACT_APP_URL_BACKEND}/profile`, value).then((res) => {
-            history('/login')
-            axios.post(`${process.env.REACT_APP_URL_BACKEND}/profile_share`, {
+        http.post(`profile`, value).then((res) => {
+            history('login')
+            http.post(`profile_share`, {
                 user_id: res.data.id,
                 share: false,
                 url: `${process.env.REACT_APP_URL_FRONTEND}/${value.name + "HelloGuy"}`,
