@@ -1,6 +1,5 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
-import { FormControl, Accordion, Button } from 'react-bootstrap'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { FormControl, Accordion } from 'react-bootstrap'
 import FormWorkExperience from '../Component/FormWorkExperience';
 import Input from '../Component/Input';
 import Modal from '../Component/Modal';
@@ -15,11 +14,11 @@ function Setting() {
   const [action, setAction] = useState(0)
   const id = localStorage.getItem("profile_id")
   const [internet] = useContext(InternetContext)
-  const updateProfile = (payload) => {
+  const updateProfile = useCallback((payload) => {
     http.patch(`profile/` + id, payload).then((res) => {
       console.log(res)
     })
-  }
+  }, [id])
 
   const onSubmit = (event) => {
     alert('Profile is update')
@@ -37,7 +36,7 @@ function Setting() {
     setData({ ...data, profile_picture: base64 });
   };
 
-  const getProfile = () => {
+  const getProfile = useCallback(() => {
     http.get(`profile/` + id).then((res) => {
       const resToString = JSON.stringify(res.data)
       setData(res.data)
@@ -51,7 +50,7 @@ function Setting() {
     }).catch((err) => {
 
     })
-  }
+  }, [updateProfile, id])
 
   const addExperience = (data) => {
     http.post(`work_experience`, {
@@ -63,7 +62,7 @@ function Setting() {
     })
   }
 
-  const getWorkExperience = () => {
+  const getWorkExperience = useCallback(() => {
     http.get(`work_experience?user_id=` + id).then((res) => {
       const resToString = JSON.stringify(res.data)
       setExperience(res.data)
@@ -84,7 +83,7 @@ function Setting() {
         localStorage.removeItem("work_experience")
       }
     })
-  }
+  }, [id])
 
   const updateExperience = (payload) => {
     http.patch(`work_experience/${payload.id}`, {
@@ -105,7 +104,7 @@ function Setting() {
       setExperience(JSON.parse(localStorage.getItem("work_experience")))
     }
 
-  }, [action])
+  }, [action, getProfile, getWorkExperience, internet])
 
 
 
@@ -128,9 +127,9 @@ function Setting() {
           alert('your work experience is add')
           if (internet) {
             addExperience({ user_id: id, ...value })
+            window.location.reload()
             return
           }
-          setAction(action + 1)
           const work_experience_local = JSON.parse(localStorage.getItem("work_experience"))
           work_experience_local.push({ user_id: id, ...value })
           localStorage.setItem("work_experience", JSON.stringify(work_experience_local))

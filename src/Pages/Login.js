@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLogin from "../Component/FormLogin";
@@ -25,7 +24,7 @@ function Login() {
         if (localStorage.getItem("profile_id")) {
             history("/")
         }
-    }, [])
+    }, [history])
 
     return (
         <div className='d-flex justify-content-center' >

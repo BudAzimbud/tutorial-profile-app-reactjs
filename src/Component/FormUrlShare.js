@@ -1,19 +1,19 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Input from './Input';
 function FormUrlShare() {
     const id = localStorage.getItem("profile_id")
     const [urlShare, setUrlShare] = useState()
-    const getProfileURL = () => {
+    const getProfileURL = useCallback(() => {
         axios.get(`${process.env.REACT_APP_URL_BACKEND}/profile_share?user_id=` + id).then((res) => {
             setUrlShare(res.data[0])
         })
-    }
+    }, [id])
     useEffect(() => {
         getProfileURL()
-    }, [])
+    }, [id ,getProfileURL])
     return (
         <form onSubmit={(event) => {
             axios.patch(`${process.env.REACT_APP_URL_BACKEND}/profile_share/${urlShare?.id}`, {

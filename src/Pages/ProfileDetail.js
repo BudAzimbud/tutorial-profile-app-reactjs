@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import formatDate from '../Helper/formatDate'
 import getAge from '../Helper/getAge'
@@ -9,13 +9,13 @@ function ProfileDetail() {
     const [profile, setProfile] = useState()
     const [experience, setExperience] = useState([])
     const history = useNavigate()
-    const getProfile = (user_id) => {
+    const getProfile = useCallback((user_id) => {
         http.get(`profile/` + user_id).then((res) => {
             setProfile({ ...profile, ...res.data })
         }).catch((err) => {
             console.log(err)
         })
-    }
+    }, [profile])
     const getWorkExperience = (user_id) => {
         http.get(`work_experience?user_id=${user_id}`).then((res) => {
             setExperience(res.data)
@@ -23,18 +23,7 @@ function ProfileDetail() {
             console.log(err)
         })
     }
-    useEffect(() => {
-        if (!id) {
-            getProfileShare()
-        } else {
-            getProfile(id)
-            getProfileShare()
-            getWorkExperience(id)
-        }
-
-    }, [profile])
-
-    const getProfileShare = () => {
+    const getProfileShare = useCallback(() => {
         const query_search = profile ? `user_id=${profile.id}` : `nickname=${nickname}`
         http.get(`profile_share?${query_search}`).then((res) => {
             console.log(res.data[0])
@@ -49,7 +38,19 @@ function ProfileDetail() {
         }).catch((err) => {
             console.log(err)
         })
-    }
+    }, [id, getProfile, history, nickname, profile])
+    useEffect(() => {
+        if (!id) {
+            getProfileShare()
+        } else {
+            getProfile(id)
+            getProfileShare()
+            getWorkExperience(id)
+        }
+
+    }, [profile, getProfile, getProfileShare, id])
+
+
 
 
 

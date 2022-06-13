@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import FormLogin from "../Component/FormLogin";
 import FormRegister from "../Component/FormRegister";
 import http from "../Helper/http.";
 
@@ -29,7 +27,7 @@ function Register() {
         if (localStorage.getItem("profile_id")) {
             history("/")
         }
-    }, [])
+    }, [history])
 
     return (
         <div className='d-flex justify-content-center' >
