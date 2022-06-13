@@ -27,7 +27,7 @@ function Login() {
     }, [history])
 
     return (
-        <div className='d-flex justify-content-center' >
+        <div className='d-flex justify-content-center' data-testid="login" >
             <div className="tab-content " style={{ width: "50%" }}>
                 <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
                     <li className="nav-item" role="presentation">
