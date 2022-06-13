@@ -20,10 +20,11 @@ describe('Home will render', () => {
         render(<Home />)
         const homeContainer = screen.getByTestId("home")
         const rowprofile = screen.getByTestId("row-profile")
+        expect(screen.getByTestId("card-profile")).toBeInDocument()
         expect(homeContainer).toHaveClass("container  text-dark")
         expect(rowprofile).toHaveClass("row row-cols-6 gap-4")
         expect(mockedAxios).toBeCalled()
     })
 
-    
+
 })

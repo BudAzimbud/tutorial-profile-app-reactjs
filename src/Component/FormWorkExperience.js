@@ -27,7 +27,6 @@ function FormWorkExperience(props) {
                             return
                         }
                     }
-                    console.log(data)
                     handleSubmit(data)
                 }}
                 className='d-flex flex-column gap-2 border p-4'>

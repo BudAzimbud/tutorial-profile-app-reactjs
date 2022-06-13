@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function CardProfile({ name, bio, id, img }) {
     return (
-        <div className="col ">
+        <div className="col" date-testid="card-profile">
             <div className="card mt-4 " style={{ width: '12rem', borderRadius: '10%' }}>
                 <div className="d-flex justify-content-center">
                     <img src={img} style={{ width: 160, height: 130, }} className="border rounded-circle card-img-top mt-2" alt="..." />
