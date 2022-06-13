@@ -11,7 +11,7 @@ function Login() {
     const handleSubmit = (value) => {
         http.get(`profile?email=${value.email}&&password=${value.password}`).then((res) => {
             if (res.data.length > 0) {
-                history('/')
+                history('/setting')
                 localStorage.setItem("profile_id", res.data[0].id)
             } else {
                 alert('Your account is wrong')
