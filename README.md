@@ -6,8 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 First clone this repository then
 running command
-$ npm i
+
+$ npm i --f
+
 $ npm run server => to run fake api
+
 $ run npm start => ro run react js app
 
 example .env
